@@ -7,15 +7,15 @@ export default defineConfig({
 
   // 上游文档里仍有部分历史兼容链接（examples/*）在当前同步范围中不可达，先按路径忽略这类链接。
   // 其它链接保持严格检查，后续逐步消除。
-  ignoreDeadLinks: [/^\.\/\.\.\/\.\.\/examples\/extensions\//],
+  ignoreDeadLinks: [/^\.\/\.\.\/examples\/extensions\//],
 
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
       { text: 'Guide', link: '/guide/01-what-is-pi' },
-      { text: 'Cookbook', link: '/cookbook/11-cookbook' },
-      { text: 'Patterns', link: '/patterns/10-patterns' },
-      { text: 'Platform', link: '/platform/terminal-setup' },
+      { text: 'Cookbook', link: '/cookbook/' },
+      { text: 'Patterns', link: '/patterns/' },
+      { text: 'Platform', link: '/platform/' },
       { text: '参考文档', link: '/reference/architecture-overview' },
       { text: '区块链专题', link: '/blockchain/README' },
       { text: 'dAgent X Layer', link: '/dagent/' },
@@ -68,14 +68,20 @@ export default defineConfig({
       '/cookbook/': [
         {
           text: 'Cookbook',
-          items: [{ text: '实战手册', link: '/cookbook/11-cookbook' }],
+          items: [
+            { text: '总览', link: '/cookbook/' },
+            { text: '11 实战手册', link: '/cookbook/11-cookbook' },
+          ],
         },
       ],
 
       '/patterns/': [
         {
           text: 'Patterns',
-          items: [{ text: '模式与实践', link: '/patterns/10-patterns' }],
+          items: [
+            { text: '总览', link: '/patterns/' },
+            { text: '10 模式与实践', link: '/patterns/10-patterns' },
+          ],
         },
       ],
 
@@ -83,6 +89,7 @@ export default defineConfig({
         {
           text: '平台与环境',
           items: [
+            { text: '总览', link: '/platform/' },
             { text: '终端环境配置', link: '/platform/terminal-setup' },
             { text: 'Termux', link: '/platform/termux' },
             { text: 'tmux', link: '/platform/tmux' },
