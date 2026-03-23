@@ -29,10 +29,10 @@ jobs:
 
           SRC="pi-mono/packages/coding-agent/docs/zh"
 
-          # Keep custom dAgent docs route (/dagent/)
-          # Add more full pi-mono Chinese docs sections for complete documentation coverage.
-          rm -rf docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain
-          mkdir -p docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain
+          # Add full pi-mono Chinese docs sections for complete documentation coverage.
+          # Keep existing /dagent/ route by syncing the same upstream source into it.
+          rm -rf docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/dagent
+          mkdir -p docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/dagent
 
           rsync -av --delete "$SRC/guide/" docs/guide/
           rsync -av --delete "$SRC/cookbook/" docs/cookbook/
@@ -40,6 +40,8 @@ jobs:
           rsync -av --delete "$SRC/platform/" docs/platform/
           rsync -av --delete "$SRC/reference/" docs/reference/
           rsync -av --delete "$SRC/blockchain/" docs/blockchain/
+          # keep /dagent/ in sync from upstream dAgent subsection as alias route
+          rsync -av --delete "$SRC/blockchain/03-dagent/" docs/dagent/
 
           # Optional supporting status/readme files
           cp -f "$SRC/BOOK.md" docs/BOOK.md || true
