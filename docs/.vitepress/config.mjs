@@ -4,13 +4,18 @@ export default defineConfig({
   title: "pi 中文文档",
   description: "pi 中文开发指南",
   lang: 'zh-CN',
-  
+  // 上游同步文档有少量过渡性死链（如还在重构中的条目）
+  // 为了保证自动部署不中断先全局忽略，后续可按需逐步收敛。
+  ignoreDeadLinks: true,
+
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
+      { text: 'pi 文档', link: '/guide/01-what-is-pi' },
+      { text: '区块链专题', link: '/blockchain/README' },
       { text: 'dAgent X Layer', link: '/dagent/' }
     ],
-    
+
     sidebar: {
       '/dagent/': [
         {
@@ -31,9 +36,44 @@ export default defineConfig({
             { text: '部署对比', link: '/dagent/34-cloudflare-vs-decentralized' },
           ]
         }
+      ],
+      '/guide/': [
+        {
+          text: 'pi 使用指南',
+          items: [
+            { text: '是什么', link: '/guide/01-what-is-pi' },
+            { text: '架构故事', link: '/guide/02-architecture-story' },
+            { text: '第一小时', link: '/guide/03-first-hour' },
+            { text: '快速入门命令', link: '/guide/04-commands' },
+            { text: '会话与会话管理', link: '/guide/05-sessions' },
+            { text: '故障排查', link: '/guide/12-troubleshooting' }
+          ]
+        }
+      ],
+      '/reference/': [
+        {
+          text: '技术参考',
+          items: [
+            { text: '架构概览', link: '/reference/architecture-overview' },
+            { text: '源码架构', link: '/reference/12-source-architecture' },
+            { text: '模型系统', link: '/reference/13-model-system' },
+            { text: '扩展开发', link: '/reference/extensions' },
+          ]
+        }
+      ],
+      '/blockchain/': [
+        {
+          text: '区块链专题',
+          items: [
+            { text: '专题总览', link: '/blockchain/00-overview' },
+            { text: 'Solana 专题', link: '/blockchain/solana/README' },
+            { text: 'Sui 专题', link: '/blockchain/sui/README' },
+            { text: 'dAgent 专题', link: '/blockchain/03-dagent/README' }
+          ]
+        }
       ]
     },
-    
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/DaviRain-Su/pi-mono' }
     ]

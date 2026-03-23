@@ -7,6 +7,9 @@ hero:
   tagline: 极简核心 + 无限扩展的 AI 编程助手
   actions:
     - theme: brand
+      text: pi 文档
+      link: /guide/01-what-is-pi
+    - theme: alt
       text: dAgent X Layer 项目
       link: /dagent/
     - theme: alt
@@ -24,7 +27,11 @@ features:
 
 ## 快速链接
 
+- [pi 文档首页](/guide/01-what-is-pi)
+- [dAgent 项目导航](/dagent/)
 - [获奖策略](/dagent/20-dagent-hackathon-strategy)
 - [比赛分析](/dagent/21-dagent-xlayer-hackathon)
 - [执行计划](/dagent/23-dagent-execution-plan)
-- [商业计划书](/dagent/27-dagent-business-plan)
+- [区块链专题](/blockchain/README)
+- [pi 扩展指南](/guide/09-extension-api)
+- [技术参考](/reference/architecture-overview)

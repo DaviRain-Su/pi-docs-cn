@@ -26,10 +26,24 @@ jobs:
       - name: Sync docs
         run: |
           set -euo pipefail
-          rm -rf docs/dagent
-          mkdir -p docs/dagent
-          rsync -av --delete pi-mono/packages/coding-agent/docs/zh/blockchain/03-dagent/ docs/dagent/
-          rm -f docs/dagent/README.md
+
+          SRC="pi-mono/packages/coding-agent/docs/zh"
+
+          # Keep custom dAgent docs route (/dagent/)
+          # Add more full pi-mono Chinese docs sections for complete documentation coverage.
+          rm -rf docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain
+          mkdir -p docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain
+
+          rsync -av --delete "$SRC/guide/" docs/guide/
+          rsync -av --delete "$SRC/cookbook/" docs/cookbook/
+          rsync -av --delete "$SRC/patterns/" docs/patterns/
+          rsync -av --delete "$SRC/platform/" docs/platform/
+          rsync -av --delete "$SRC/reference/" docs/reference/
+          rsync -av --delete "$SRC/blockchain/" docs/blockchain/
+
+          # Optional supporting status/readme files
+          cp -f "$SRC/BOOK.md" docs/BOOK.md || true
+          cp -f "$SRC/SYNC-STATUS.md" docs/SYNC-STATUS.md || true
 
       - name: Validate docs build
         run: |
@@ -42,7 +56,7 @@ jobs:
           set -euo pipefail
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add docs/dagent
+          git add docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/BOOK.md docs/SYNC-STATUS.md docs/dagent || true
           if git diff --staged --quiet; then
             echo "No doc changes to commit."
             exit 0
