@@ -1,7 +1,3 @@
----
-title: dAgent 商业计划书
----
-
 # dAgent 商业计划书
 
 > 去中心化 AI Agent 协作网络 - X Layer 黑客松版

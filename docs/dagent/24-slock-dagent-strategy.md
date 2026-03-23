@@ -1,7 +1,3 @@
----
-title: 从 Slock.ai 到 dAgent on X Layer
----
-
 # 从 Slock.ai 到 dAgent on X Layer
 
 > 结合 Slock 理念与 X Layer 生态的黑客松获胜策略

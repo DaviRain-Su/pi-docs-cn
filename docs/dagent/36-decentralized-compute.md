@@ -1,7 +1,3 @@
----
-title: 去中心化计算平台全景分析
----
-
 # 去中心化计算平台全景分析
 
 > EigenCompute、ICP 及其他 TEE 平台对比与 pi-worker 部署策略

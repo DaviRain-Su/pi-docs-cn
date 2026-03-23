@@ -1,7 +1,3 @@
----
-title: "dAgent on X Layer: 深度实现方案"
----
-
 # dAgent on X Layer: 深度实现方案
 
 > 基于 X Layer 特性的去中心化 Agent 服务平台设计

@@ -1,7 +1,3 @@
----
-title: dAgent 多链架构设计
----
-
 # dAgent 多链架构设计
 
 > 以 X Layer 为主场，支持 Solana/Sui/EVM 多链的统一 Agent 网络

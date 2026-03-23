@@ -1,77 +1,31 @@
 name: Sync Docs from pi-mono
 
 on:
-  # 定时同步：每天凌晨 2 点
   schedule:
     - cron: '0 2 * * *'
-  
-  # 手动触发
   workflow_dispatch:
-    inputs:
-      source_branch:
-        description: 'pi-mono 分支'
-        required: false
-        default: 'feature/coding-agent-zh-docs'
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout pi-docs-cn
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
       
       - name: Checkout pi-mono
         uses: actions/checkout@v4
         with:
           repository: DaviRain-Su/pi-mono
-          ref: ${{ github.event.inputs.source_branch || 'feature/coding-agent-zh-docs' }}
           path: pi-mono
-          token: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: npm ci
-      
-      - name: Sync documents
+      - name: Copy docs
         run: |
-          node scripts/sync-from-pi-mono.js ./pi-mono
+          cp -r pi-mono/packages/coding-agent/docs/zh/blockchain/03-dagent/* docs/dagent/
+          rm -f docs/dagent/README.md
       
-      - name: Check for changes
-        id: check_changes
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "📊 变更统计:"
-            git status --short | wc -l
-          else
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "✅ 文档已是最新，无需同步"
-          fi
-      
-      - name: Commit and push changes
-        if: steps.check_changes.outputs.has_changes == 'true'
+      - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "docs: sync from pi-mono@$(date +%Y-%m-%d)
-
-          
-          Automated sync from pi-mono repository.
-          - Source: DaviRain-Su/pi-mono@${{ github.event.inputs.source_branch || 'feature/coding-agent-zh-docs' }}
-          - Time: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git diff --quiet && git diff --staged --quiet || git commit -m "docs: sync from pi-mono"
           git push
-      
-      - name: Deployment notification
-        if: steps.check_changes.outputs.has_changes == 'true'
-        run: |
-          echo "🚀 文档已同步，Vercel 将自动部署"
-          echo "📖 访问: https://pi-docs-cn.vercel.app"

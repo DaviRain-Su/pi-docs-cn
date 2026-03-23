@@ -3,19 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "sync": "node scripts/sync-from-pi-mono.js"
-  },
-  "dependencies": {
-    "@astrojs/starlight": "^0.30.0",
-    "astro": "^4.16.0",
-    "sharp": "^0.33.0"
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs",
+    "preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0"
+    "vitepress": "^1.6.3"
   }
 }

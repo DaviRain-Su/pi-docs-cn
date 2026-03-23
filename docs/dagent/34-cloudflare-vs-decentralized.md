@@ -1,7 +1,3 @@
----
-title: Cloudflare Worker vs 去中心化 Worker 分析
----
-
 # Cloudflare Worker vs 去中心化 Worker 分析
 
 > 基于 qaml-ai/pi-worker 的架构对比与演进策略
