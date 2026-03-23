@@ -50,13 +50,6 @@ export default defineConfig({
       ],
       lastUpdated: true,
       pagination: true,
-      defaultLocale: 'zh',
-      locales: {
-        root: {
-          label: '简体中文',
-          lang: 'zh-CN',
-        },
-      },
       customCss: ['./src/styles/custom.css'],
     }),
   ],
