@@ -1,0 +1,46 @@
+/* 自定义样式 */
+
+/* 调整侧边栏宽度 */
+:root {
+  --sl-sidebar-width: 18rem;
+}
+
+/* 代码块样式优化 */
+pre {
+  border-radius: 0.5rem;
+}
+
+/* 卡片悬停效果 */
+.card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 表格样式优化 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+th {
+  background-color: var(--sl-color-gray-6);
+  font-weight: 600;
+}
+
+/* 链接样式 */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
