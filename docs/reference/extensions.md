@@ -30,7 +30,7 @@
 - 自定义主题/页脚/覆盖层
 - 需要 OAuth 的自定义 provider
 
-示例见：[examples/extensions/](../../../examples/extensions/)
+示例见：[examples/extensions/index](/examples/extensions/index.md)
 
 ## 目录
 
