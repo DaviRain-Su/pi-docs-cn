@@ -4,9 +4,10 @@ export default defineConfig({
   title: "pi 中文文档",
   description: "pi 中文开发指南",
   lang: 'zh-CN',
-  // 上游同步文档有少量过渡性死链（如还在重构中的条目）
-  // 为了保证自动部署不中断先全局忽略，后续可按需逐步收敛。
-  ignoreDeadLinks: true,
+
+  // 上游文档里仍有部分历史兼容链接（examples/*）在当前同步范围中不可达，先按路径忽略这类链接。
+  // 其它链接保持严格检查，后续可逐步消除。
+  ignoreDeadLinks: [/^\.\/\.\.\/\.\.\/\.\.\/examples\/extensions\//],
 
   themeConfig: {
     nav: [

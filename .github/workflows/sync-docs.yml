@@ -7,12 +7,15 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout target repo
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -23,14 +26,12 @@ jobs:
           path: pi-mono
           fetch-depth: 1
 
-      - name: Sync docs
+      - name: Sync upstream docs
         run: |
           set -euo pipefail
 
           SRC="pi-mono/packages/coding-agent/docs/zh"
 
-          # Add full pi-mono Chinese docs sections for complete documentation coverage.
-          # Keep existing /dagent/ route by syncing the same upstream source into it.
           rm -rf docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/dagent
           mkdir -p docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/dagent
 
@@ -40,28 +41,124 @@ jobs:
           rsync -av --delete "$SRC/platform/" docs/platform/
           rsync -av --delete "$SRC/reference/" docs/reference/
           rsync -av --delete "$SRC/blockchain/" docs/blockchain/
-          # keep /dagent/ in sync from upstream dAgent subsection as alias route
+
+          # Keep /dagent/ route in sync as legacy project entry
           rsync -av --delete "$SRC/blockchain/03-dagent/" docs/dagent/
 
-          # Optional supporting status/readme files
           cp -f "$SRC/BOOK.md" docs/BOOK.md || true
           cp -f "$SRC/SYNC-STATUS.md" docs/SYNC-STATUS.md || true
 
-      - name: Validate docs build
+      - name: Apply compatibility shims for transitional links
         run: |
           set -euo pipefail
+
+          write_file_if_missing() {
+            local path="$1"
+            local content="$2"
+            if [ ! -f "$path" ]; then
+              mkdir -p "$(dirname "$path")"
+              printf '%s\n' "$content" > "$path"
+            fi
+          }
+
+          if [ ! -f docs/AGENTS.md ] && [ -f pi-mono/AGENTS.md ]; then
+            cp pi-mono/AGENTS.md docs/AGENTS.md
+          fi
+
+          write_file_if_missing docs/guide/20-hackathon-winning-strategy.md $'# 黑客松获奖策略（历史路径）\n\n该文档在当前仓库中为路径兼容保留。\n\n你可以直接查看：\n\n- [20-dagent-hackathon-strategy](/dagent/20-dagent-hackathon-strategy)'
+          write_file_if_missing docs/reference/zig/30-slock-ai-analysis.md $'# Slock.ai 分析\n\n本地路径 `reference/zig/30-slock-ai-analysis.md` 为历史兼容保留文件。\n\n请查看新版地址：\n\n- [pi-mono 多 Agent 架构](/reference/zig/28-pi-mono-multi-agent-architecture)'
+          write_file_if_missing docs/reference/compute/34-cloudflare-worker-vs-decentralized.md $'# Cloudflare Worker vs 去中心化 Worker\n\n该文档当前为历史兼容占位页。\n\n后续将补充该章节内容。'
+          write_file_if_missing docs/reference/compute/35-decentralized-worker-deployment-guide.md $'# 去中心化 Worker 部署指南\n\n该文档当前为历史兼容占位页。\n\n后续将补充该章节内容。'
+          write_file_if_missing docs/reference/compute/36-decentralized-compute-platforms-analysis.md $'# 去中心化计算平台分析\n\n该文档当前为历史兼容占位页。\n\n后续将补充该章节内容。'
+          write_file_if_missing docs/blockchain/dasn/index.md $'# DASN 专题\n\n本目录入口请使用：\n\n- [DASN 专题总览](/blockchain/dasn/README)'
+          write_file_if_missing docs/blockchain/index.md $'# 区块链专题\n\n- [Blockchain 总览](/blockchain/README)\n- [DASN 专题](/blockchain/dasn/README)'
+
+          write_file_if_missing docs/examples/extensions/index.md $'# Examples\n\n示例目录（兼容入口）'
+          write_file_if_missing docs/examples/extensions/custom-provider-anthropic.md $'# custom-provider-anthropic\n\n该示例页为兼容历史链接保留，当前源码示例暂未同步。'
+          write_file_if_missing docs/examples/extensions/custom-provider-gitlab-duo.md $'# custom-provider-gitlab-duo\n\n该示例页为兼容历史链接保留，当前源码示例暂未同步。'
+          write_file_if_missing docs/examples/extensions/custom-provider-qwen-cli.md $'# custom-provider-qwen-cli\n\n该示例页为兼容历史链接保留，当前源码示例暂未同步。'
+          write_file_if_missing docs/examples/extensions/plan-mode.md $'# plan-mode\n\n该示例页为兼容历史链接保留，当前源码示例暂未同步。'
+
+          write_file_if_missing docs/examples/extensions/custom-provider-anthropic/index.md $'# Compatibility shim\n\n该示例页为兼容历史链接保留。'
+          write_file_if_missing docs/examples/extensions/custom-provider-gitlab-duo/index.md $'# Compatibility shim\n\n该示例页为兼容历史链接保留。'
+          write_file_if_missing docs/examples/extensions/custom-provider-qwen-cli/index.md $'# Compatibility shim\n\n该示例页为兼容历史链接保留。'
+          write_file_if_missing docs/examples/extensions/plan-mode/index.md $'# Compatibility shim\n\n该示例页为兼容历史链接保留。'
+
+          if [ -f docs/blockchain/03-dagent/05-analysis/30-slock-analysis.md ]; then
+            sed -i 's#(../../blockchain/dasn/19-dasn-vision.md)#(../../dasn/19-dasn-vision.md)#' docs/blockchain/03-dagent/05-analysis/30-slock-analysis.md
+            sed -i 's#(./28-pi-mono-multi-agent-architecture.md)#(../../../reference/zig/28-pi-mono-multi-agent-architecture.md)#' docs/blockchain/03-dagent/05-analysis/30-slock-analysis.md
+          fi
+
+          for target in docs/reference/custom-provider.md docs/reference/providers.md docs/reference/extensions.md docs/reference/tui.md; do
+            if [ -f "$target" ]; then
+              sed -i 's#(../../../examples/extensions/custom-provider-anthropic/)#(../../../examples/extensions/custom-provider-anthropic.md)#g' "$target"
+              sed -i 's#(../../../examples/extensions/custom-provider-gitlab-duo/)#(../../../examples/extensions/custom-provider-gitlab-duo.md)#g' "$target"
+              sed -i 's#(../../../examples/extensions/custom-provider-qwen-cli/)#(../../../examples/extensions/custom-provider-qwen-cli.md)#g' "$target"
+              sed -i 's#(../../../examples/extensions/index)#(../../../examples/extensions/index.md)#g' "$target"
+              sed -i 's#(../../../examples/extensions/plan-mode)#(../../../examples/extensions/plan-mode.md)#g' "$target"
+              sed -i 's#(./../../../examples/extensions/index)#(./../../../examples/extensions/index.md)#g' "$target"
+            fi
+          done
+
+      - name: Validate docs build (retry)
+        env:
+          MAX_RETRIES: 3
+          RETRY_DELAY_SEC: 20
+        run: |
+          set -euo pipefail
+
           npm ci
-          npm run build
+
+          for i in $(seq 1 "$MAX_RETRIES"); do
+            echo "Validate attempt $i/$MAX_RETRIES"
+            if npm run build; then
+              echo "Build succeeded"
+              break
+            fi
+
+            if [ "$i" -lt "$MAX_RETRIES" ]; then
+              echo "Build failed, retrying after ${RETRY_DELAY_SEC}s..."
+              sleep "$RETRY_DELAY_SEC"
+            else
+              echo "Build failed after ${MAX_RETRIES} attempts"
+              exit 1
+            fi
+          done
 
       - name: Commit and push changes
         run: |
           set -euo pipefail
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/BOOK.md docs/SYNC-STATUS.md docs/dagent || true
+          git add docs/guide docs/cookbook docs/patterns docs/platform docs/reference docs/blockchain docs/BOOK.md docs/SYNC-STATUS.md docs/AGENTS.md docs/dagent docs/examples
           if git diff --staged --quiet; then
             echo "No doc changes to commit."
             exit 0
           fi
           git commit -m "docs: sync from pi-mono"
           git push
+
+      - name: Notify on failure
+        if: failure()
+        env:
+          SYNC_FAILURE_WEBHOOK: ${{ secrets.DOCS_SYNC_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          if [ -n "${SYNC_FAILURE_WEBHOOK:-}" ]; then
+            payload="{\"text\":\"⚠️ Docs sync workflow failed\\nRun: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\\nBranch: ${GITHUB_REF_NAME}\\nCommit: ${GITHUB_SHA}\"}"
+            echo "$payload" | curl -sS -X POST "$SYNC_FAILURE_WEBHOOK" -H 'Content-Type: application/json' -d @- || true
+          fi
+
+      - name: Notify on failure (GitHub issue)
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            const body = `Docs sync failed on ${context.repo.owner}/${context.repo.repo}\n\n- Workflow: ${context.workflow}\n- Run: ${runUrl}\n- Commit: ${context.sha}\n- Branch: ${context.ref}`
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `docs-sync: build failed on ${context.runId}`,
+              body
+            })

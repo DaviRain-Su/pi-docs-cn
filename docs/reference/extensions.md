@@ -609,7 +609,7 @@ pi.ui.setEditorComponent((tui, theme, data) => new CustomEditor(tui, theme, data
 
 ## 示例参考
 
-所有示例在 [examples/extensions/](../../../examples/extensions/)。
+所有示例在 [examples/extensions/index](/examples/extensions/index.md)。
 
 | 示例 | 说明 | 关键 API |
 |---------|-------------|----------|

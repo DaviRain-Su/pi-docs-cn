@@ -547,8 +547,8 @@ pub const DASNWorker = struct {
 
 - [Slock.ai 官网](https://slock.ai)
 - [Slock 文档](https://docs.slock.ai) (推测)
-- [DASN 架构愿景](../../blockchain/dasn/19-dasn-vision.md)
-- [多 Agent 架构设计](./28-pi-mono-multi-agent-architecture.md)
+- [DASN 架构愿景](../../dasn/19-dasn-vision.md)
+- [多 Agent 架构设计](../../../reference/zig/28-pi-mono-multi-agent-architecture.md)
 
 ---
 

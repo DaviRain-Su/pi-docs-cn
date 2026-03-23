@@ -756,7 +756,7 @@ ctx.ui.setStatus("my-ext", ctx.ui.theme.fg("accent", "● active"));
 ctx.ui.setStatus("my-ext", undefined);
 ```
 
-**示例：** [status-line.ts](../../../examples/extensions/status-line.ts)、[plan-mode.ts](../../../examples/extensions/plan-mode)、[preset.ts](../../../examples/extensions/preset.ts)
+**示例：** [status-line.ts](../../../examples/extensions/status-line.ts)、[plan-mode.ts](../../../examples/extensions/plan-mode.md)、[preset.ts](../../../examples/extensions/preset.ts)
 
 ### 模式 5：编辑器上方/下方的小部件
 
@@ -786,7 +786,7 @@ ctx.ui.setWidget("my-widget", (_tui, theme) => {
 ctx.ui.setWidget("my-widget", undefined);
 ```
 
-**示例：** [plan-mode.ts](../../../examples/extensions/plan-mode)
+**示例：** [plan-mode.ts](../../../examples/extensions/plan-mode.md)
 
 ### 模式 6：自定义页脚
 
@@ -903,7 +903,7 @@ export default function (pi: ExtensionAPI) {
 - **选择 UI**：[examples/extensions/preset.ts](../../../examples/extensions/preset.ts) - SelectList 配合 DynamicBorder 框架
 - **带取消的异步**：[examples/extensions/qna.ts](../../../examples/extensions/qna.ts) - 用于 LLM 调用的 BorderedLoader
 - **设置开关**：[examples/extensions/tools.ts](../../../examples/extensions/tools.ts) - 工具启用/禁用的 SettingsList
-- **状态指示器**：[examples/extensions/plan-mode.ts](../../../examples/extensions/plan-mode) - setStatus 和 setWidget
+- **状态指示器**：[examples/extensions/plan-mode.ts](../../../examples/extensions/plan-mode.md) - setStatus 和 setWidget
 - **自定义页脚**：[examples/extensions/custom-footer.ts](../../../examples/extensions/custom-footer.ts) - 带统计的 setFooter
 - **自定义编辑器**：[examples/extensions/modal-editor.ts](../../../examples/extensions/modal-editor.ts) - 类 Vim 模态编辑
 - **贪吃蛇游戏**：[examples/extensions/snake.ts](../../../examples/extensions/snake.ts) - 完整游戏，带键盘输入、游戏循环

@@ -11,9 +11,9 @@
 
 见这些完整的 provider 示例：
 
-- [`examples/extensions/custom-provider-anthropic/`](../../../examples/extensions/custom-provider-anthropic/)
-- [`examples/extensions/custom-provider-gitlab-duo/`](../../../examples/extensions/custom-provider-gitlab-duo/)
-- [`examples/extensions/custom-provider-qwen-cli/`](../../../examples/extensions/custom-provider-qwen-cli/)
+- [`examples/extensions/custom-provider-anthropic.md`](../../../examples/extensions/custom-provider-anthropic.md)
+- [`examples/extensions/custom-provider-gitlab-duo.md`](../../../examples/extensions/custom-provider-gitlab-duo.md)
+- [`examples/extensions/custom-provider-qwen-cli.md`](../../../examples/extensions/custom-provider-qwen-cli.md)
 
 ## 目录
 
