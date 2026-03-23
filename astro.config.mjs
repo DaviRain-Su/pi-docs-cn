@@ -52,7 +52,7 @@ export default defineConfig({
       pagination: true,
       defaultLocale: 'zh',
       locales: {
-        zh: {
+        root: {
           label: '简体中文',
           lang: 'zh-CN',
         },
