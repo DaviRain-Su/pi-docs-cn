@@ -5,27 +5,47 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+        with:
+          fetch-depth: 1
+
       - name: Checkout pi-mono
         uses: actions/checkout@v4
         with:
           repository: DaviRain-Su/pi-mono
           path: pi-mono
-      
-      - name: Copy docs
+          fetch-depth: 1
+
+      - name: Sync docs
         run: |
-          cp -r pi-mono/packages/coding-agent/docs/zh/blockchain/03-dagent/* docs/dagent/
+          set -euo pipefail
+          rm -rf docs/dagent
+          mkdir -p docs/dagent
+          rsync -av --delete pi-mono/packages/coding-agent/docs/zh/blockchain/03-dagent/ docs/dagent/
           rm -f docs/dagent/README.md
-      
-      - name: Commit changes
+
+      - name: Validate docs build
         run: |
+          set -euo pipefail
+          npm ci
+          npm run build
+
+      - name: Commit and push changes
+        run: |
+          set -euo pipefail
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .
-          git diff --quiet && git diff --staged --quiet || git commit -m "docs: sync from pi-mono"
+          git add docs/dagent
+          if git diff --staged --quiet; then
+            echo "No doc changes to commit."
+            exit 0
+          fi
+          git commit -m "docs: sync from pi-mono"
           git push
