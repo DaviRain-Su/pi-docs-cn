@@ -30,7 +30,7 @@
 - 自定义主题/页脚/覆盖层
 - 需要 OAuth 的自定义 provider
 
-示例见：[examples/extensions/index](/examples/extensions/index.md)
+示例见：[examples/extensions/](/examples/extensions/index.md)
 
 ## 目录
 
@@ -609,7 +609,7 @@ pi.ui.setEditorComponent((tui, theme, data) => new CustomEditor(tui, theme, data
 
 ## 示例参考
 
-所有示例在 [examples/extensions/index](/examples/extensions/index.md)。
+所有示例在 [examples/extensions/](/examples/extensions/index.md)。
 
 | 示例 | 说明 | 关键 API |
 |---------|-------------|----------|

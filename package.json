@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
-    "preview": "vitepress preview docs"
+    "preview": "vitepress preview docs",
+    "sync:zh": "bash scripts/sync-zh-docs.sh",
+    "sync:zh:no-build": "bash scripts/sync-zh-docs.sh --no-build"
   },
   "devDependencies": {
     "vitepress": "^1.6.3"
